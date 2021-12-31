@@ -39,7 +39,7 @@ const Home = () => {
           ) : (
             <ThoughtList 
               thoughts={thoughts} 
-              title="Some Feed for Thought(s)..." 
+              title="Some Feed for those Thought(s)..." 
             />
           )}
         </div>
