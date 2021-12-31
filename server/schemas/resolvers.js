@@ -1,7 +1,7 @@
-// importing the Thought, and User model
-const { User, Thought } = require('../models');
 // error handling
 const { AuthenticationError } = require('apollo-server-express');
+// importing the Thought, and User model
+const { User, Thought } = require('../models');
 const { signToken } = require('../utils/auth');
 
 const resolvers = {
@@ -18,24 +18,12 @@ const resolvers = {
 
         throw new AuthenticationError('Not logged in');
     },
-
-        thoughts: async (parent, { username }) => {
-            // using a find() method to return an array of "thoughts". And sort it by descending order with .sort({ createdAt: -1 })
-            const params = username ? { username } : {}; 
-            return Thought.find(params).sort({ createdAt: -1 });
-        },
-
-        // single thought 
-        thought: async (parent, { _id }) => {
-            return Thought.findOne({ _id });
-        },
-
-        // get all users
-        users: async () => {
+         // get all users
+         users: async () => {
             return User.find()
             .select('-__v -password')
-            .populate('friends')
-            .populate('thoughts');
+            .populate('thoughts')
+            .populate('friends');
         },
 
         // get a user by username
@@ -45,6 +33,16 @@ const resolvers = {
             .populate('friends')
             .populate('thoughts');
         },
+        thoughts: async (parent, { username }) => {
+            // using a find() method to return an array of "thoughts". And sort it by descending order with .sort({ createdAt: -1 })
+            const params = username ? { username } : {}; 
+            return Thought.find(params).sort({ createdAt: -1 });
+        },
+
+        // single thought 
+        thought: async (parent, { _id }) => {
+            return Thought.findOne({ _id });
+        }
     },
     Mutation: {
         addUser: async (parent, args) => {
@@ -87,7 +85,7 @@ const resolvers = {
         },
         addReaction: async (parent, { thoughtId, reactionBody }, context) => {
             if(context.user) {
-                const updatedThought = await Thought.findOneAndDelete(
+                const updatedThought = await Thought.findOneAndUpdate(
                     { _id: thoughtId },
                     { $push: { reactions: { reactionBody, username: context.user.username } } },
                     { new: true, runValidators: true }
@@ -98,7 +96,7 @@ const resolvers = {
         },
 
         addFriend: async (parent, { friendId }, context) => {
-            if(context.user) {
+            if (context.user) {
                 const updatedUser = await User.findOneAndUpdate(
                     { _id: context.user._id },
                     // user cant have the same friend twice, so we use the addToSet operator

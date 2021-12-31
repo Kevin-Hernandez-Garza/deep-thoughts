@@ -5,14 +5,13 @@ import { useParams } from 'react-router-dom';
 // import ReactionList component
 import ReactionList from '../components/ReactionList';
 import ReactionForm from '../components/ReactionForm';
-import Auth from '../utils/auth';
 
+import Auth from '../utils/auth';
 // importing singleThought data
 import { useQuery } from '@apollo/client';
 import { QUERY_THOUGHT } from '../utils/queries';
 
 const SingleThought = (props) => {
-  
   const { id: thoughtId } = useParams();
   // console.log(thoughtId);
 
@@ -26,7 +25,7 @@ const SingleThought = (props) => {
     return <div>Loading...</div>;
   }
 
-  return (
+return (
 <div>
   <div className="card mb-3">
     <p className="card-header">
@@ -40,11 +39,13 @@ const SingleThought = (props) => {
     </div>
   </div>
   
-  {thought.reactionCount > 0 && <ReactionList reactions={thought.reactions} />}
+  {thought.reactionCount > 0 && (
+    <ReactionList reactions={thought.reactions} />
+  )}
 
   {Auth.loggedIn() && <ReactionForm thoughtId={thought._id} />}
 </div>
-
-);};
+  );
+};
 
 export default SingleThought;

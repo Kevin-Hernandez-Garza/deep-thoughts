@@ -1,11 +1,10 @@
 import React from 'react';
 import { Redirect, useParams } from 'react-router-dom';
 
-import Auth from '../utils/auth';
-
 // thoughtForm component import
 import ThoughtForm from '../components/ThoughtForm';
 import ThoughtList from '../components/ThoughtList';
+import Auth from '../utils/auth';
 
 import { ADD_FRIEND } from '../utils/mutations';
 import { useQuery, useMutation } from '@apollo/client';

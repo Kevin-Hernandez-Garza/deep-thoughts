@@ -21,8 +21,9 @@ const ReactionForm = ({ thoughtId }) => {
     event.preventDefault();
 
     try {
+      // add reaction to db
       await addReaction({
-        variables: { reactionBody, thoughtId },
+        variables: {thoughtId , reactionBody},
       });
 
       // clear form value

@@ -1,14 +1,16 @@
 import React from 'react';
-// importing AuthService function
-import Auth from '../utils/auth';
+
+import ThoughtList from '../components/ThoughtList';
+// thoughtForm component import
+import ThoughtForm from '../components/ThoughtForm';
 // importing friendList
 import FriendList from '../components/FriendList';
+
+// importing AuthService function
+import Auth from '../utils/auth';
 // allow us to make requests to the GraphQL server we connected to
 import { useQuery } from '@apollo/client';
 import { QUERY_THOUGHTS, QUERY_ME_BASIC } from '../utils/queries';
-// thoughtForm component import
-import ThoughtForm from '../components/ThoughtForm';
-import ThoughtList from '../components/ThoughtList';
 
 const Home = () => {
   // use useQuery hook to make query requests
@@ -19,7 +21,7 @@ const Home = () => {
 
   // getting the thought data out of the query's response. This is called "Optional Chaining"
   const thoughts = data?.thoughts || [];
-  console.log(thoughts);
+  // console.log(thoughts);
 
   const loggedIn = Auth.loggedIn();
 
@@ -35,7 +37,10 @@ const Home = () => {
           {loading ? (
             <div>Loading...</div>
           ) : (
-            <ThoughtList thoughts={thoughts} title="Some Feed for Thought(s)..." />
+            <ThoughtList 
+              thoughts={thoughts} 
+              title="Some Feed for Thought(s)..." 
+            />
           )}
         </div>
         {loggedIn && userData ? (

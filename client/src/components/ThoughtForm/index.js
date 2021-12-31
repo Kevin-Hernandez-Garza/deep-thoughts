@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
+
 import { useMutation } from '@apollo/client';
 import { ADD_THOUGHT } from '../../utils/mutations';
-
 // importing thoughts array
 import { QUERY_THOUGHTS, QUERY_ME } from '../../utils/queries';
 
@@ -28,9 +28,9 @@ const ThoughtForm = () => {
             const { me } = cache.readQuery({ query: QUERY_ME });
             cache.writeQuery({
                 query: QUERY_ME,
-                data: { me: { ...me, thoughts: [...me.thoughts, addThought]} }
+                data: { me: { ...me, thoughts: [...me.thoughts, addThought] } },
             });
-        }
+        },
     });
 
     const handleChange = (event) => {
